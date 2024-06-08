@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login com Firebase</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="https://zapvoice.com.br/wp-content/uploads/2022/08/cropped-icon32-32x32.png" sizes="32x32" />
+    <!-- Estilos CSS personalizados -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center mb-4">
+            <img src="https://zapvoice.com.br/wp-content/uploads/2022/08/Logo.png" alt="Logo do ZapVoice" class="logo">
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control form-control-lg custom-input" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-label">Senha:</label>
+                            <input type="password" class="form-control form-control-lg custom-input" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Firebase JavaScript SDK -->
+<!-- Importe o Firebase SDK como módulo ES6 -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // Inicialize o Firebase com suas credenciais
+    const firebaseConfig = {
+        apiKey: "AIzaSyD46ER3TfZJTAYs3LBZ-FmBdlpgsX7H29s",
+    authDomain: "zapvoice-19f1b.firebaseapp.com",
+    projectId: "zapvoice-19f1b",
+    storageBucket: "zapvoice-19f1b.appspot.com",
+    messagingSenderId: "665669355897",
+    appId: "1:665669355897:web:6089d5982f71ac9d2907a8"
+    };
+
+    // Inicialize o Firebase
+    const app = initializeApp(firebaseConfig);
+
+    // Referência para o serviço de autenticação do Firebase
+    const auth = getAuth(app);
+
+    // Seleciona o formulário de login
+    const loginForm = document.querySelector('#loginForm');
+
+    // Adiciona um evento de submit ao formulário de login
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Previne o comportamento padrão de envio do formulário
+
+        // Obtém os valores de e-mail e senha do formulário
+        const email = loginForm['email'].value;
+        const password = loginForm['password'].value;
+
+        // Realiza o login com Firebase Authentication
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Limpa os campos do formulário após o login
+                loginForm.reset();
+                // Você pode redirecionar o usuário para outra página aqui, se necessário
+                console.log('Login bem-sucedido:', userCredential.user);
+                window.location.href = "acesso.html"; // Redireciona para a página acesso.html após o login
+            })
+            .catch((error) => {
+                // Trata erros de login
+                console.error('Erro ao fazer login:', error.message);
+                alert('Erro ao fazer login. Verifique seu e-mail e senha.');
+            });
+    });
+</script>
+
+<!-- Bootstrap JS e Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
